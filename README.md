@@ -1,8 +1,10 @@
-# DecisionPilot – Multi-Agent Decision Intelligence System
+# DecisionPilot – AI Multi-Agent Decision Intelligence Platform
 
 ## Overview
 
-**DecisionPilot** is a true **multi-agent AI system** designed to help users make better decisions by collecting information, analyzing multiple perspectives, comparing options, and delivering explainable recommendations. Instead of operating as a traditional chatbot, DecisionPilot leverages specialized AI agents that collaborate to evaluate options, assess risks, and produce highly contextual recommendations.
+People make important decisions every day—from choosing a college or career path to investing in stocks or buying electronics. Most AI chatbots simply give a single opinion without asking enough questions, evaluating all factors, comparing options systematically, or explaining their reasoning and trade-offs.
+
+**DecisionPilot** solves this by using a **6-agent collaborative AI architecture**. Instead of operating as a traditional chatbot, these specialized AI agents collaborate, evaluate options, assess risks, and produce highly contextual, explainable recommendations.
 
 ---
 
@@ -21,7 +23,7 @@ DecisionPilot
 ├── backend/              # FastAPI backend housing the multi-agent system
 │   ├── app/
 │   │   ├── api/          # API endpoints for frontend communication
-│   │   ├── agents/       # The core reasoning engines (Intake, Analysis, Recommendation, Orchestrator)
+│   │   ├── agents/       # The core reasoning engines (Context, Research, Analysis, Risk, Decision, Explanation, Orchestrator)
 │   │   ├── models/       # Data models for structured handling of decisions and reports
 │   │   ├── schemas/      # Pydantic schemas for API validation
 │   │   ├── services/     # Utility services (LLM calls, scoring, PDF reporting)
@@ -36,51 +38,66 @@ DecisionPilot
 
 ---
 
-## 🤖 The Three AI Agents
+## 🤖 The Six-Agent Workflow
 
-The core of DecisionPilot relies on a **three-agent workflow**, orchestrated seamlessly to guide the user from an initial query to a detailed recommendation.
+The core of DecisionPilot relies on a **6-agent workflow**, managed by an Orchestrator. Every agent communicates using structured JSON instead of plain text, ensuring a reliable data flow.
 
-### 1. Intake Agent
-**Responsibility:** Collects comprehensive information from the user through conversational data gathering.
-- **Goal:** Understands budget, constraints, preferences, and potential options.
-- **Output:** Produces structured JSON data encapsulating the decision parameters.
+### 1. Context Agent
+**Responsibility:** Understands the user's situation by interviewing them.
+- **Goal:** Ensures no important information is missing (budget, purpose, constraints).
+- **Output:** Structured JSON encapsulating the decision parameters.
 
-### 2. Analysis Agent
-**Responsibility:** Acts as the reasoning engine to evaluate options.
-- **Capabilities:** Performs pros/cons analysis, risk assessment, cost & opportunity analysis, and identifies missing information.
-- **Output:** Provides detailed scoring matrices (Cost, Performance, Risk, Future Proof, etc.) and confidence scores for every option.
+### 2. Research Agent
+**Responsibility:** Gathers factual information for each option.
+- **Goal:** Compiles data like price, specs, salary, growth, risk, and market trends.
+- **Output:** Structured ratings and factual data points for every option.
 
-### 3. Recommendation Agent
-**Responsibility:** Synthesizes the analysis into a final decision.
-- **Capabilities:** Selects the best choice, explains the reasoning, highlights the confidence level, and provides alternatives.
-- **Output:** The final, explainable recommendation delivered to the user.
+### 3. Analysis Agent
+**Responsibility:** The core reasoning engine.
+- **Goal:** Analyzes pros, cons, strengths, weaknesses, opportunity costs, and future impacts.
+- **Output:** A detailed comparative analysis matrix.
+
+### 4. Risk Agent
+**Responsibility:** Predicts possible future problems (the crucial missing piece in most AIs).
+- **Goal:** Identifies risks like "Cannot train large models", "High competition", or "Market volatility".
+- **Output:** Risk scores and probability estimations for each option.
+
+### 5. Decision Agent
+**Responsibility:** Performs weighted scoring based on the previous agents' findings.
+- **Goal:** Calculates a final numerical score for each option based on weighted factors (Cost, Performance, Future, etc.).
+- **Output:** The recommended option backed by empirical scores.
+
+### 6. Explanation Agent
+**Responsibility:** Translates the decision into human-readable insights.
+- **Goal:** Explains *WHY* the recommendation was made, its confidence level, and *WHY NOT* the other options.
+- **Output:** A comprehensive, empathetic, and logical final response.
 
 ---
 
-## 🔄 Agent Flow & Orchestration
+## 🔄 Orchestrator Agent & Internal Data Flow
 
-The system uses an **Orchestrator** to control the execution order in a pipeline fashion:
+The **Orchestrator** is the brain of the system. It doesn't make decisions itself; it manages the pipeline:
 
-1. **User Request** comes in via the Frontend to the Backend API.
-2. **Intake Agent** processes the request into structured data.
-3. **Analysis Agent** evaluates the structured data to produce scores and risks.
-4. **Recommendation Agent** reviews the analysis to formulate the final decision.
-5. **Response** is returned to the user with full transparency (pros/cons, reasoning, scores).
+`User Query ➔ Context JSON ➔ Research JSON ➔ Analysis JSON ➔ Risk JSON ➔ Decision JSON ➔ Explanation JSON ➔ Frontend`
 
 ---
 
 ## 🛠 Tech Stack
 
 - **Frontend:** Streamlit, Plotly (for decision score charts), AgGrid (for comparison tables).
-- **Backend:** FastAPI, Pydantic, SQLAlchemy, PostgreSQL (or SQLite for development).
-- **AI & Workflow:** Gemini API (LLM), LangGraph (or custom orchestrator) for multi-agent workflows.
+- **Backend:** FastAPI, SQLAlchemy, PostgreSQL (or SQLite for development).
+- **AI & Workflow:** Gemini API (LLM), LangGraph (or custom orchestrator), Pydantic (for structured outputs).
 - **Utilities:** ReportLab (PDF generation), Pandas (Analytics and history processing).
 
 ---
 
-## 💡 Why this architecture?
+## 🚀 Future Expansion
 
-* **Clear separation of responsibilities:** Each agent has a single job (collect, analyze, recommend), making the system easier to test and extend.
-* **Modularity:** You can replace or improve one agent without affecting the others.
-* **Explainability:** Users see not just the recommendation, but also the reasoning, trade-offs, and confidence.
-* **Future-ready:** The architecture is scalable, allowing for specialized agents (financial, legal, health, career) to be added without redesigning the core workflow.
+Once the core system is working, specialized agents can be added without changing the base architecture:
+* **Finance Agent:** For investments and budgeting.
+* **Career Agent:** For education and job decisions.
+* **Health Agent:** For lifestyle choices.
+* **Travel Agent:** For itinerary comparisons.
+* **Negotiation Agent:** To simulate stakeholder viewpoints.
+
+This modular design is what makes DecisionPilot a true **agentic AI** project, making recommendations transparent, explainable, and highly trustworthy.
