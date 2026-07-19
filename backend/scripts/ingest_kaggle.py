@@ -1,5 +1,12 @@
 import os
-import subprocess
+import sys
+
+try:
+    import kaggle
+except ImportError:
+    print("❌ The 'kaggle' package is not installed.")
+    print("Please run: pip install -r requirements.txt")
+    sys.exit(1)
 
 # Datasets to download
 # Format: "kaggle_username/dataset_name"
@@ -24,21 +31,20 @@ def download_datasets():
     # Ensure target directory exists
     os.makedirs(TARGET_DIR, exist_ok=True)
     
+    try:
+        kaggle.api.authenticate()
+    except Exception as e:
+        print(f"❌ Kaggle authentication failed. Ensure your Kaggle API key is at ~/.kaggle/kaggle.json")
+        print(f"Error: {e}")
+        sys.exit(1)
+
     for category, dataset_id in DATASETS.items():
         print(f"--- Downloading {category} ({dataset_id}) ---")
         try:
-            # Use the Kaggle CLI to download and unzip directly to the target directory
-            # Equivalent to: kaggle datasets download -d <dataset_id> -p <path> --unzip
-            subprocess.run([
-                "kaggle", "datasets", "download", 
-                "-d", dataset_id, 
-                "-p", TARGET_DIR, 
-                "--unzip"
-            ], check=True)
+            kaggle.api.dataset_download_files(dataset_id, path=TARGET_DIR, unzip=True)
             print(f"✅ Successfully downloaded {category}.\n")
-        except subprocess.CalledProcessError as e:
-            print(f"❌ Failed to download {category}. Ensure your Kaggle API key is configured properly (e.g., ~/.kaggle/kaggle.json).\n")
-            print(f"Error: {e}\n")
+        except Exception as e:
+            print(f"❌ Failed to download {category}.\nError: {e}\n")
 
 if __name__ == "__main__":
     download_datasets()
