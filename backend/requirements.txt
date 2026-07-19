@@ -4,3 +4,7 @@ pydantic
 SQLAlchemy
 kaggle
 pandas
+langgraph
+langchain-google-genai
+python-dotenv
+sse-starlette

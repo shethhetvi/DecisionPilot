@@ -13,20 +13,92 @@ const AGENTS = [
 export default function DecisionOrchestrator({ query, onReset }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [finalData, setFinalData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (currentStep < AGENTS.length) {
-      const timer = setTimeout(() => {
-        setCurrentStep(prev => prev + 1);
-      }, 1200); // Artificial delay per agent
-      return () => clearTimeout(timer);
-    } else {
-      setTimeout(() => setIsComplete(true), 500);
-    }
-  }, [currentStep]);
+    // Initiate POST request with Server-Sent Events pattern
+    // The browser native EventSource only does GET. We use a POST via fetch and process the stream.
+    const controller = new AbortController();
 
-  if (isComplete) {
-    return <ComparisonDashboard query={query} onReset={onReset} />;
+    const fetchDecision = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/api/decide/stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query }),
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to connect to backend.');
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          
+          buffer += decoder.decode(value, { stream: true });
+          
+          // Process SSE chunks
+          const lines = buffer.split('\n');
+          buffer = lines.pop(); // Keep incomplete line in buffer
+          
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6);
+              try {
+                const data = JSON.parse(dataStr);
+                
+                if (data.error) {
+                  throw new Error(data.error);
+                }
+                
+                if (data.agent === 'done') {
+                  setFinalData(data.final_decision);
+                  setIsComplete(true);
+                  break;
+                } else {
+                  // Find the index of the agent that just completed
+                  const index = AGENTS.findIndex(a => a.id === data.agent);
+                  if (index !== -1 && index + 1 > currentStep) {
+                    setCurrentStep(index + 1);
+                  }
+                }
+              } catch (e) {
+                console.error("Error parsing chunk", e, dataStr);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setError(err.message);
+        }
+      }
+    };
+
+    fetchDecision();
+
+    return () => controller.abort();
+  }, [query]);
+
+  if (error) {
+    return (
+      <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <h2 style={{ color: 'var(--accent-pink)', marginBottom: '1rem' }}>Backend Error</h2>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>{error}</p>
+        <button className="btn-primary" onClick={onReset}>Try Again</button>
+      </div>
+    );
+  }
+
+  if (isComplete && finalData) {
+    return <ComparisonDashboard query={query} data={finalData} onReset={onReset} />;
   }
 
   return (
