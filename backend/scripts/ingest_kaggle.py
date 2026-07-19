@@ -12,15 +12,15 @@ except ImportError:
 # Format: "kaggle_username/dataset_name"
 DATASETS = {
     "laptops": "muhammetvarl/laptop-price",
-    "colleges": "yashbhalgat/college-admissions-dataset",
+    "colleges": "mohansacharya/graduate-admissions",
     "stocks": "camnugent/sandp500",
-    "smartphones": "vijaik2/smartphone-specifications-pricing-eda-ready",
+    "smartphones": "iabhishekofficial/mobile-price-classification",
     "careers": "arnabchaki/data-science-salaries-2023",
     "cities": "mvieira101/global-cost-of-living",
     "cars": "deepcontractor/car-price-prediction-challenge",
-    "ai_models": "pralabhpoudel/top-large-language-models-llms-2026",
-    "frameworks": "ruchikakumbhar/stack-overflow-developer-survey-2023",
-    "cloud_providers": "piterfm/2022-stack-overflow-developer-survey"
+    "ai_models": "thedrcat/daigt-proper-train-dataset",
+    "frameworks": "asaniczka/software-engineering-salaries-2023",
+    "cloud_providers": "surajjha101/aws-certified-cloud-practitioner-questions"
 }
 
 TARGET_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'datasets', 'raw'))
