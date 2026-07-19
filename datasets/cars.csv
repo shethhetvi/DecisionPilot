@@ -1,0 +1,5 @@
+Model,Type,Range_or_MPG,Price_USD,Maintenance_Cost_5Y,0_to_60_mph
+Tesla Model 3,EV,341,38990,Low,4.2
+Toyota Camry,Gas,32,26420,Medium,7.2
+Ford F-150,Gas,20,36570,High,6.5
+Hyundai Ioniq 5,EV,303,41800,Low,5.0
