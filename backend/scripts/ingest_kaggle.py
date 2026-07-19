@@ -7,13 +7,19 @@ DATASETS = {
     "laptops": "muhammetvarl/laptop-price",
     "colleges": "yashbhalgat/college-admissions-dataset",
     "stocks": "camnugent/sandp500",
-    "smartphones": "vijaik2/smartphone-specifications-pricing-eda-ready"
+    "smartphones": "vijaik2/smartphone-specifications-pricing-eda-ready",
+    "careers": "arnabchaki/data-science-salaries-2023",
+    "cities": "mvieira101/global-cost-of-living",
+    "cars": "deepcontractor/car-price-prediction-challenge",
+    "ai_models": "pralabhpoudel/top-large-language-models-llms-2026",
+    "frameworks": "ruchikakumbhar/stack-overflow-developer-survey-2023",
+    "cloud_providers": "piterfm/2022-stack-overflow-developer-survey"
 }
 
 TARGET_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'datasets', 'raw'))
 
 def download_datasets():
-    print(f"Downloading Kaggle datasets to {TARGET_DIR}...\n")
+    print(f"Downloading all 10 Kaggle datasets to {TARGET_DIR}...\n")
     
     # Ensure target directory exists
     os.makedirs(TARGET_DIR, exist_ok=True)
