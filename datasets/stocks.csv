@@ -1,0 +1,6 @@
+Ticker,Company,Sector,Avg_Annual_Return,Volatility,Dividend_Yield
+AAPL,Apple,Technology,15%,Medium,0.5%
+MSFT,Microsoft,Technology,18%,Medium,0.8%
+SPY,S&P 500 ETF,Broad Market,10%,Low,1.5%
+TSLA,Tesla,Consumer Discretionary,25%,High,0.0%
+JNJ,Johnson & Johnson,Healthcare,8%,Low,3.0%
