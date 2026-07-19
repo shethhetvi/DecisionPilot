@@ -1,0 +1,6 @@
+Model,Brand,CPU,RAM_GB,Storage_GB,Battery_Hours,Weight_lbs,Price_USD
+MacBook Air M3,Apple,Apple M3,16,512,18,2.7,1299
+MacBook Pro M3 Pro,Apple,Apple M3 Pro,18,512,14,3.5,1999
+ThinkPad X1 Carbon,Lenovo,Intel i7,16,512,12,2.4,1499
+XPS 15,Dell,Intel i9,32,1024,10,4.2,2299
+ROG Zephyrus G14,ASUS,AMD Ryzen 9,16,1024,8,3.6,1599
