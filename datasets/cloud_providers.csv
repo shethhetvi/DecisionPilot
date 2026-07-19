@@ -1,0 +1,5 @@
+Provider,Market_Share,Learning_Curve,Enterprise_Focus,Free_Tier
+AWS,32%,Steep,High,Yes
+Azure,23%,Medium,Very High,Yes
+GCP,11%,Medium,High,Yes
+DigitalOcean,2%,Low,Low,No
