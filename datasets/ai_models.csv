@@ -1,0 +1,5 @@
+Model,Provider,Context_Window,Cost_per_1M_Tokens_In,Cost_per_1M_Tokens_Out
+GPT-4o,OpenAI,128k,5.00,15.00
+Claude 3 Opus,Anthropic,200k,15.00,75.00
+Gemini 1.5 Pro,Google,1000k,3.50,10.50
+Llama 3 70B,Meta,8k,0.00,0.00
