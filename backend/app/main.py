@@ -32,7 +32,7 @@ async def decide_stream(request: Request, payload: QueryRequest):
         state = {"query": query}
         
         try:
-            for output in orchestrator_app.stream(state):
+            async for output in orchestrator_app.astream(state):
                 # If client disconnects, stop processing
                 if await request.is_disconnected():
                     break

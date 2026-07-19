@@ -93,7 +93,7 @@ You MUST output your response as a raw JSON object (do not wrap in markdown ```j
 
 def explanation_node(state: DecisionState):
     # Just a pass-through node to trigger the 6th UI step
-    return {"current_agent": "explanation"}
+    return {"current_agent": "explanation", "final_decision": state.get("final_decision", {})}
 
 # Build Graph
 graph_builder = StateGraph(DecisionState)
