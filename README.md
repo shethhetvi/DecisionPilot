@@ -91,6 +91,19 @@ The **Orchestrator** is the brain of the system. It doesn't make decisions itsel
 
 ---
 
+## 🔑 Setup & API Keys
+
+To run the Multi-Agent system locally, you must provide your Gemini API key:
+
+1. Navigate to the backend directory: `cd backend`
+2. Copy the template environment file: `cp .env.example .env`
+3. Open `.env` and replace `your_api_key_here` with your actual Gemini API key.
+4. Run the backend: `uvicorn app.main:app --port 8081 --reload`
+
+**Note:** The `.env` file is ignored by Git to ensure your private keys are never exposed or pushed.
+
+---
+
 ## 🚀 Future Expansion
 
 Once the core system is working, specialized agents can be added without changing the base architecture:
