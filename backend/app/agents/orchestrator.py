@@ -3,11 +3,13 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from .state import DecisionState
 import json
+import time
 
 # Initialize Gemini Model
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.2)
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.2, max_retries=3)
 
 def context_node(state: DecisionState):
+    time.sleep(2)
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are the Context Agent. Your job is to extract constraints, preferences, and core requirements from the user's decision query. Output only the context constraints."),
         ("user", "{query}")
@@ -17,6 +19,7 @@ def context_node(state: DecisionState):
     return {"context": response.content, "current_agent": "context"}
 
 def research_node(state: DecisionState):
+    time.sleep(2)
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are the Research Agent. Gather factual information, potential options, and data based on the following query and context. Output only the research facts."),
         ("user", "Query: {query}\nContext: {context}")
@@ -26,6 +29,7 @@ def research_node(state: DecisionState):
     return {"research_data": response.content, "current_agent": "research"}
 
 def analysis_node(state: DecisionState):
+    time.sleep(2)
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are the Analysis Agent. Evaluate the research data against the constraints. Compare the top options. Output the pros and cons."),
         ("user", "Query: {query}\nContext: {context}\nResearch: {research_data}")
@@ -35,6 +39,7 @@ def analysis_node(state: DecisionState):
     return {"analysis": response.content, "current_agent": "analysis"}
 
 def risk_node(state: DecisionState):
+    time.sleep(2)
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are the Risk Agent. Identify potential pitfalls, hidden costs, or long-term risks for the top options identified in the analysis. Output only the risks."),
         ("user", "Query: {query}\nAnalysis: {analysis}")
@@ -44,6 +49,7 @@ def risk_node(state: DecisionState):
     return {"risks": response.content, "current_agent": "risk"}
 
 def decision_node(state: DecisionState):
+    time.sleep(2)
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are the Decision Agent. Based on all previous steps, make a final recommendation. 
 You MUST output your response as a raw JSON object (do not wrap in markdown ```json blocks) with the following exact schema:

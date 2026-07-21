@@ -51,26 +51,31 @@ export default function DecisionOrchestrator({ query, onReset }) {
           for (const line of lines) {
             if (line.startsWith('data: ')) {
               const dataStr = line.slice(6);
+              
+              let data;
               try {
-                const data = JSON.parse(dataStr);
-                
-                if (data.error) {
-                  throw new Error(data.error);
-                }
-                
-                if (data.agent === 'done') {
-                  setFinalData(data.final_decision);
-                  setIsComplete(true);
-                  break;
-                } else {
-                  // Find the index of the agent that just completed
-                  const index = AGENTS.findIndex(a => a.id === data.agent);
-                  if (index !== -1 && index + 1 > currentStep) {
-                    setCurrentStep(index + 1);
-                  }
-                }
+                data = JSON.parse(dataStr);
               } catch (e) {
                 console.error("Error parsing chunk", e, dataStr);
+                continue;
+              }
+              
+              if (data.error) {
+                setError(data.error);
+                setIsComplete(false);
+                break;
+              }
+              
+              if (data.agent === 'done') {
+                setFinalData(data.final_decision);
+                setIsComplete(true);
+                break;
+              } else {
+                // Find the index of the agent that just completed
+                const index = AGENTS.findIndex(a => a.id === data.agent);
+                if (index !== -1 && index + 1 > currentStep) {
+                  setCurrentStep(index + 1);
+                }
               }
             }
           }
