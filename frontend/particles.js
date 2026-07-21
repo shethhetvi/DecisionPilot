@@ -25,11 +25,12 @@ class ParticleSystem {
 
   randomColor() {
     const palette = [
-      'rgba(167,139,250,', // violet
-      'rgba(244,114,182,', // pink
-      'rgba(96,165,250,',  // blue
-      'rgba(34,211,238,',  // cyan
-      'rgba(52,211,153,',  // green
+      'rgba(99,102,241,',  // indigo
+      'rgba(139,92,246,',  // violet
+      'rgba(236,72,153,',  // pink
+      'rgba(14,165,233,',  // sky
+      'rgba(16,185,129,',  // emerald
+      'rgba(245,158,11,',  // amber
     ];
     return palette[Math.floor(Math.random() * palette.length)];
   }
@@ -39,9 +40,9 @@ class ParticleSystem {
     return {
       x: x ?? Math.random() * this.W,
       y: y ?? Math.random() * this.H,
-      r: Math.random() * 2 + 0.5,
-      alpha: Math.random() * 0.5 + 0.1,
-      alphaDir: (Math.random() > 0.5 ? 1 : -1) * 0.003,
+      r: Math.random() * 1.8 + 0.4,
+      alpha: Math.random() * 0.35 + 0.08,
+      alphaDir: (Math.random() > 0.5 ? 1 : -1) * 0.002,
       vx: (Math.random() - 0.5) * 0.4,
       vy: (Math.random() - 0.5) * 0.4,
       color,
@@ -78,10 +79,10 @@ class ParticleSystem {
         const maxDist = 120;
 
         if (dist < maxDist) {
-          const opacity = (1 - dist / maxDist) * 0.15;
+          const opacity = (1 - dist / maxDist) * 0.12;
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(167,139,250,${opacity})`;
-          ctx.lineWidth = 0.6;
+          ctx.strokeStyle = `rgba(99,102,241,${opacity})`;
+          ctx.lineWidth = 0.5;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.stroke();
