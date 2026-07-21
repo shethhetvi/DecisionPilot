@@ -1,13 +1,383 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DecisionPilot — AI Multi-Agent Decision Intelligence</title>
+  <meta name="description" content="DecisionPilot uses 6 specialized AI agents to analyze your toughest decisions — giving you data-backed, risk-aware recommendations." />
+  <meta property="og:title" content="DecisionPilot — AI Decision Intelligence" />
+  <meta property="og:description" content="6 AI agents collaborate to help you make smarter decisions." />
+  <meta name="theme-color" content="#050b18" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Particle Canvas ─────────────────────────────────────── -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- ── Navbar ─────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="nav-logo" onclick="goHome()" style="cursor:pointer">
+    <div class="logo-icon">🧠</div>
+    <span class="grad-text">DecisionPilot</span>
+  </div>
+  <div class="nav-links">
+    <button class="btn btn-ghost btn-sm" onclick="openGame()">🎮 Decision Duel</button>
+    <button class="btn btn-primary btn-sm" onclick="goToInput()">Start Deciding →</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  VIEW 1 — LANDING                                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="view-landing" class="view active">
+  <div class="hero">
+    <!-- Background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="hero-eyebrow">
+      <span>✨</span> 6-Agent AI Architecture
+    </div>
+
+    <h1 class="hero-title">
+      Make Decisions<br>
+      <span class="grad-text">with Confidence</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      DecisionPilot deploys 6 specialized AI agents that interview you,
+      research your options, assess risks, and deliver an explainable,
+      data-backed recommendation.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="goToInput()" id="hero-cta">
+        🚀 Analyze My Decision
+      </button>
+      <button class="btn btn-ghost btn-lg" onclick="openGame()" id="hero-game-btn">
+        🎮 Play Decision Duel
+      </button>
+    </div>
+
+    <!-- Agent Chips -->
+    <div class="agents-preview" style="margin-top:3rem">
+      <div class="agent-chip" style="animation-delay:0.3s">👤 Context</div>
+      <div class="agent-chip" style="animation-delay:0.38s">🔍 Research</div>
+      <div class="agent-chip" style="animation-delay:0.46s">⚖️ Analysis</div>
+      <div class="agent-chip" style="animation-delay:0.54s">⚠️ Risk</div>
+      <div class="agent-chip" style="animation-delay:0.62s">🧮 Decision</div>
+      <div class="agent-chip" style="animation-delay:0.70s">💬 Explanation</div>
+    </div>
+  </div>
+
+  <div class="container" style="padding-bottom:5rem">
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num" data-count="6" data-suffix="">0</span>
+        <div class="stat-label">Specialized Agents</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-count="98" data-suffix="%">0%</span>
+        <div class="stat-label">Structured Output</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-count="360" data-suffix="°">0°</span>
+        <div class="stat-label">Decision Coverage</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-count="3" data-suffix="x">0x</span>
+        <div class="stat-label">Better Than Guessing</div>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <div class="text-center mb-4">
+      <div class="label mb-2">How It Works</div>
+      <h2 style="font-size:2rem">The 6-Agent Pipeline</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card" style="animation-delay:0.1s">
+        <div class="feature-icon feature-icon-pink">👤</div>
+        <h3>Context Agent</h3>
+        <p>Interviews you to uncover hidden constraints — budget, timeline, preferences — ensuring no detail is missed.</p>
+      </div>
+      <div class="feature-card" style="animation-delay:0.2s">
+        <div class="feature-icon feature-icon-blue">🔍</div>
+        <h3>Research Agent</h3>
+        <p>Compiles real specs, prices, pros and cons for every option you're considering — grounded in facts.</p>
+      </div>
+      <div class="feature-card" style="animation-delay:0.3s">
+        <div class="feature-icon feature-icon-violet">⚖️</div>
+        <h3>Analysis Agent</h3>
+        <p>The core reasoning engine — builds a comparative matrix of trade-offs, strengths, and opportunity costs.</p>
+      </div>
+      <div class="feature-card" style="animation-delay:0.4s">
+        <div class="feature-icon feature-icon-amber">⚠️</div>
+        <h3>Risk Agent</h3>
+        <p>Predicts future pitfalls most AIs miss: "Can't train large models", "Market saturated in 2 years".</p>
+      </div>
+      <div class="feature-card" style="animation-delay:0.5s">
+        <div class="feature-icon feature-icon-green">🧮</div>
+        <h3>Decision Agent</h3>
+        <p>Performs weighted multi-criteria scoring — Cost, Performance, Risk, Future — to produce a final score.</p>
+      </div>
+      <div class="feature-card" style="animation-delay:0.6s">
+        <div class="feature-icon feature-icon-cyan">💬</div>
+        <h3>Explanation Agent</h3>
+        <p>Translates everything into a human-friendly explanation: WHY this option, and WHY NOT the others.</p>
+      </div>
+    </div>
+
+    <!-- CTA banner -->
+    <div class="glass glass-p text-center" style="margin-top:4rem;background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(244,114,182,0.08));border-color:rgba(167,139,250,0.3)">
+      <h2 style="font-size:1.75rem;margin-bottom:1rem">Ready to make your best decision yet?</h2>
+      <p style="color:var(--text2);margin-bottom:2rem">Describe your dilemma and let 6 AI agents work it out for you.</p>
+      <button class="btn btn-primary btn-lg" onclick="goToInput()" id="bottom-cta">
+        🚀 Get My Recommendation
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  VIEW 2 — DECISION INPUT                                  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="view-input" class="view">
+  <div class="input-card glass glass-p" style="max-width:800px;margin:auto;margin-top:6rem">
+    <button class="btn btn-ghost btn-sm" onclick="goHome()" style="margin-bottom:1.5rem">← Back</button>
+
+    <div class="input-header">
+      <div style="font-size:3rem;margin-bottom:1rem;animation:agentBounce 2s ease-in-out infinite alternate">🧠</div>
+      <h2>What decision can I help you make?</h2>
+      <p>Describe your dilemma — comparing options, career choices, investments, tech picks…</p>
+    </div>
+
+    <div class="input-row">
+      <input
+        type="text"
+        id="query-input"
+        class="fancy-input"
+        placeholder="MacBook Air vs Pro for AI development?"
+        onkeydown="if(event.key==='Enter') startAnalysis()"
+        autocomplete="off"
+        spellcheck="true"
+      />
+      <button id="analyze-btn" class="btn btn-primary" onclick="startAnalysis()" disabled>
+        Analyze 🚀
+      </button>
+    </div>
+
+    <div class="label mt-2 mb-1">Try an example:</div>
+    <div id="example-chips" class="example-queries"></div>
+
+    <!-- Mini agent grid -->
+    <div class="mini-agents mt-4">
+      <div class="mini-agent">
+        <div class="mini-icon">👤</div>
+        <span>Context</span>
+      </div>
+      <div class="mini-agent">
+        <div class="mini-icon">🔍</div>
+        <span>Research</span>
+      </div>
+      <div class="mini-agent">
+        <div class="mini-icon">⚖️</div>
+        <span>Analysis</span>
+      </div>
+      <div class="mini-agent">
+        <div class="mini-icon">⚠️</div>
+        <span>Risk</span>
+      </div>
+      <div class="mini-agent">
+        <div class="mini-icon">🧮</div>
+        <span>Decision</span>
+      </div>
+      <div class="mini-agent">
+        <div class="mini-icon">💬</div>
+        <span>Explain</span>
+      </div>
+    </div>
+
+    <p style="color:var(--text3);font-size:0.8rem;text-align:center;margin-top:1.5rem">
+      💡 If the backend is offline, DecisionPilot runs in <strong>demo mode</strong> automatically.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  VIEW 3 — ORCHESTRATOR PIPELINE                           -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="view-orchestrator" class="view">
+  <div class="pipeline-card glass glass-p" style="margin-top:5rem">
+    <div class="pipeline-header">
+      <div class="label mb-2">🤖 AI Pipeline Running</div>
+      <h2 class="pipeline-title grad-text">Orchestrator Active</h2>
+      <div class="query-display">
+        <strong>Query:</strong> <span id="pipeline-query"></span>
+      </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper" id="stepper-steps" style="position:relative">
+      <div class="step-progress-line" id="step-progress-line"></div>
+    </div>
+
+    <!-- Agent status -->
+    <div class="agent-status-card">
+      <div class="agent-status-icon" id="agent-status-icon">🧠</div>
+      <div class="agent-status-name" id="agent-status-name">Initializing…</div>
+      <div class="agent-status-desc" id="agent-status-desc">Setting up the agent pipeline…</div>
+      <div class="thinking-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Log feed -->
+    <div class="log-feed" id="log-feed"></div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="btn btn-ghost btn-sm" onclick="goHome()">✕ Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  VIEW 4 — RESULTS DASHBOARD                               -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="view-results" class="view">
+  <div class="container">
+    <div class="results-header">
+      <div>
+        <div class="label">Analysis Complete</div>
+        <h2>Your Decision is Ready</h2>
+        <p style="color:var(--text2);font-size:0.9rem;margin-top:0.25rem" id="results-query"></p>
+      </div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="goToInput()">New Decision</button>
+        <button class="btn btn-primary btn-sm" onclick="goHome()">← Home</button>
+      </div>
+    </div>
+
+    <!-- Winner Card -->
+    <div class="winner-card">
+      <div class="winner-eyebrow">🏆 Final Recommendation</div>
+      <h1 class="winner-name grad-text" id="winner-name"></h1>
+      <div class="confidence-meter" id="confidence-value">–% Confidence</div>
+      <p class="winner-explanation" id="winner-explanation"></p>
+    </div>
+
+    <!-- Options Grid -->
+    <div class="label mb-2">Comparison Breakdown</div>
+    <div class="options-grid" id="options-grid"></div>
+
+    <!-- Footer actions -->
+    <div style="text-align:center;padding:2rem 0;border-top:1px solid var(--border);margin-top:2rem">
+      <p style="color:var(--text2);margin-bottom:1.5rem">Want to practice making quick decisions? 🎮</p>
+      <button class="btn btn-primary" onclick="openGame()">Play Decision Duel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  VIEW 5 — 🎮 DECISION DUEL GAME                           -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="view-game" class="view">
+
+  <div class="game-header">
+    <h1>🎮 Decision Duel</h1>
+    <p>Choose fast. Every second counts. Train your decisiveness muscle!</p>
+  </div>
+
+  <!-- HUD -->
+  <div class="game-meta">
+    <span class="game-score-display" id="game-score">Score: 0</span>
+    <span class="game-streak-display" id="game-streak">Streak: 0 🔥</span>
+    <span class="game-timer-display" id="game-timer">7s</span>
+  </div>
+
+  <!-- Progress dots -->
+  <div class="game-progress-row" id="game-progress"></div>
+
+  <!-- Timer bar -->
+  <div class="timer-bar-wrap">
+    <div class="timer-bar-fill" id="timer-bar-fill"></div>
+  </div>
+
+  <!-- Play area (cards + game over) -->
+  <div id="game-play-area">
+    <div class="card-arena">
+      <!-- Left card -->
+      <div class="game-card left" id="game-card-left" role="button" aria-label="Choose left option">
+        <span class="game-category-badge">Category</span>
+        <div class="game-card-emoji">☕</div>
+        <div class="game-card-label">Coffee</div>
+        <div class="game-card-hint">Quick energy</div>
+      </div>
+
+      <div class="vs-badge">VS</div>
+
+      <!-- Right card -->
+      <div class="game-card right" id="game-card-right" role="button" aria-label="Choose right option">
+        <span class="game-category-badge">Category</span>
+        <div class="game-card-emoji">🍵</div>
+        <div class="game-card-label">Tea</div>
+        <div class="game-card-hint">Calm focus</div>
+      </div>
+    </div>
+
+    <p style="color:var(--text3);font-size:0.85rem;text-align:center;margin-top:1.5rem">
+      ⚡ Click your preference before the timer runs out! Speed = bonus points.
+    </p>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div class="glass game-over-card" id="game-over-card">
+    <div style="font-size:3rem;margin-bottom:1rem">🏁</div>
+    <h2>Game Over!</h2>
+    <div class="game-over-score grad-text" id="final-score">0</div>
+    <div class="badge badge-amber" id="final-streak" style="margin:0.5rem auto;display:inline-flex">Best Streak: 0 🔥</div>
+    <h3 id="final-grade" style="margin:1rem 0">—</h3>
+    <p id="grade-text" style="color:var(--text2);font-size:0.95rem"></p>
+    <div class="game-actions">
+      <button class="btn btn-primary" onclick="restartGame()">🔄 Play Again</button>
+      <button class="btn btn-ghost" onclick="goToInput()">🚀 Try Real Decision</button>
+      <button class="btn btn-ghost" onclick="goHome()">🏠 Home</button>
+    </div>
+  </div>
+
+  <!-- Feedback emoji overlay -->
+  <div class="game-feedback" id="game-feedback">✅</div>
+
+  <!-- Back link -->
+  <button class="btn btn-ghost btn-sm" onclick="goHome()" style="margin-top:2rem">← Back to Home</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  VIEW — ERROR                                             -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="view-error" class="view">
+  <div class="error-icon">💥</div>
+  <h2>Something went wrong</h2>
+  <p id="error-message">An unexpected error occurred.</p>
+  <div style="display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap;justify-content:center">
+    <button class="btn btn-primary" onclick="goToInput()">Try Again</button>
+    <button class="btn btn-ghost" onclick="goHome()">← Home</button>
+  </div>
+</div>
+
+<!-- ── Scripts ─────────────────────────────────────────────── -->
+<script src="particles.js"></script>
+<script src="game.js"></script>
+<script src="app.js"></script>
+
+</body>
 </html>
